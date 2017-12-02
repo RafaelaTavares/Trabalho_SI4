@@ -4,17 +4,26 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.ParseException;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.MaskFormatter;
 
+import br.edu.univas.tp4.model.DAO.CadastrarUsuarioDAO;
+import br.edu.univas.tp4.model.Exception.CadastrarUsuarioExeption;
+import br.edu.univas.tp4.model.TO.CadastrarUsuarioTO;
 import br.edu.univas.tp4.view.Util.Frame;
 
 public class CadastrarUsuario  extends JFrame{
@@ -22,6 +31,18 @@ public class CadastrarUsuario  extends JFrame{
 	private static final long serialVersionUID = 1987604675648829199L;
 	
 	private JPanel contentPane = null;
+	//Declarações no corpo da classe
+		JTextField textCod =  new JTextField();
+		JTextField textUsuario = new JTextField();
+		JTextField textCPF = new JTextField();
+		JTextField textLogin = new JTextField();
+		JPasswordField textSenha = new JPasswordField();
+		JPasswordField textSenhaConfirma = new JPasswordField();
+		JRadioButton admRadioButton = new JRadioButton();
+		JRadioButton gerenciaRadioButton = new JRadioButton();
+		JRadioButton usuarioRadioButton = new JRadioButton();
+		JFormattedTextField JFormatTextFieldCpf =  new JFormattedTextField();
+	//Fim declarações
 	
 	public CadastrarUsuario(){		
 		this.setSize(470, 305);
@@ -46,7 +67,6 @@ public class CadastrarUsuario  extends JFrame{
 		codVeiculo.setText("Codigo:");
 		centerPanel.add(codVeiculo);				
 		
-		JTextField textCod = new JTextField();
 		textCod.setColumns(4);
 		centerPanel.add(textCod);
 		
@@ -64,7 +84,6 @@ public class CadastrarUsuario  extends JFrame{
 		nomeUsuario.setText("Nome do Usuário:  ");
 		centerPanel.add(nomeUsuario);
 		
-		JTextField textUsuario = new JTextField();
 		textUsuario.setColumns(33);
 		centerPanel.add(textUsuario);
 		
@@ -75,34 +94,37 @@ public class CadastrarUsuario  extends JFrame{
 		
 		JLabel loginUsuario = new JLabel();
 		loginUsuario.setBorder(new EmptyBorder(10, 0, 0, 0));
-		loginUsuario.setText("                                                             Login:  ");
+		loginUsuario.setText("                                                   Login:  ");
 		centerPanel.add(loginUsuario);
-						
-		JTextField textCPF = new JTextField();
-		textCPF.setColumns(16);
-		centerPanel.add(textCPF);
 		
-		JTextField textLogin = new JTextField();
+		JFormatTextFieldCpf.setColumns(16);
+		try {
+			MaskFormatter mascaraCpf = new MaskFormatter("###.###.###-##");
+			mascaraCpf.setPlaceholderCharacter('_');
+			mascaraCpf.install(JFormatTextFieldCpf);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		centerPanel.add(JFormatTextFieldCpf);;
+		
 		textLogin.setColumns(16);
 		centerPanel.add(textLogin);
 		
 		JLabel senhaUsuario = new JLabel();
 		senhaUsuario.setBorder(new EmptyBorder(10, 0, 0, 0));
-		senhaUsuario.setText("      Senha:  ");
+		senhaUsuario.setText("           Senha:  ");
 		centerPanel.add(senhaUsuario);
 		
 		JLabel senhaConfirmaUsuario = new JLabel();
 		senhaConfirmaUsuario.setBorder(new EmptyBorder(10, 0, 0, 0));
-		senhaConfirmaUsuario.setText("                                                    Confirmar Senha:  ");
+		senhaConfirmaUsuario.setText("                                   Confirmar Senha:  ");
 		centerPanel.add(senhaConfirmaUsuario);
 		
-		JPasswordField textSenha = new JPasswordField();
 		textSenha.setColumns(16);
 		centerPanel.add(textSenha);
 		
-		JPasswordField textSenhaComfirma = new JPasswordField();
-		textSenhaComfirma.setColumns(16);
-		centerPanel.add(textSenhaComfirma);
+		textSenhaConfirma.setColumns(16);
+		centerPanel.add(textSenhaConfirma);
 		
 		JLabel acessoUsuario = new JLabel();
 		acessoUsuario.setBorder(new EmptyBorder(10, 0, 0, 0));
@@ -111,14 +133,14 @@ public class CadastrarUsuario  extends JFrame{
 		acessoUsuario.setFont(new Font("Dialog", Font.CENTER_BASELINE, 14));
 		centerPanel.add(acessoUsuario);
 		
-		JRadioButton admRadioButton = new JRadioButton("Administrador");
+		admRadioButton.setText("Administrador");
 		admRadioButton.setBackground(Color.lightGray);
 		admRadioButton.setSelected(false);
 	    
-	    JRadioButton gerenciaRadioButton = new JRadioButton("Gerência");
+	    gerenciaRadioButton.setText("Gerência");
 	    gerenciaRadioButton.setBackground(Color.lightGray);
 	    
-	    JRadioButton usuarioRadioButton = new JRadioButton("Usuário");
+	    usuarioRadioButton.setText("Usuário");
 	    usuarioRadioButton.setBackground(Color.lightGray);
 	    
 	    ButtonGroup group = new ButtonGroup();
@@ -158,11 +180,32 @@ public class CadastrarUsuario  extends JFrame{
 		JButton excluir = new JButton();
 		excluir.setText("Excluir");
 		excluir.setPreferredSize(new Dimension(70, 25));
+		excluir.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				excluirClicked();
+				
+			}
+
+			private void excluirClicked() {
+				//Extraindo informações dos campos
+				int codUsuario = Integer.valueOf(textCod.getText()); //Transformando String em Int
+				
+			}
+		});
 		westPanel.add(excluir);
 		
 		JButton gravar = new JButton();
 		gravar.setText("Gravar");
 		gravar.setPreferredSize(new Dimension(70, 25));
+		gravar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				gravarClicked();				
+			}
+		});
 		westPanel.add(gravar);
 		
 		JButton cancelar = new JButton();
@@ -171,11 +214,41 @@ public class CadastrarUsuario  extends JFrame{
 		westPanel.add(cancelar);
 	}
 	
-	private void cadastraUsuario(){
-		int codUsuario;
-		String nome;
-		int cpf;
-		String senha;
+	private void gravarClicked(){
+		//Extraindo informações dos campos
+		int codUsuario = Integer.valueOf(textCod.getText()); //Transformando String em Int
+		String nome = textUsuario.getText();
+		String cpf = JFormatTextFieldCpf.getText().replaceAll("\\D","");
+		String senha = new String(textSenha.getPassword()) ; //Transformando password em String
+		
+		//Montando TO
+		CadastrarUsuarioTO usuario = new CadastrarUsuarioTO(codUsuario, nome, cpf, senha);
+		
+		if(senhaCorreta()){
+			//coloca aqui o insert do dao
+			//Inserindo usuario no banco de dados - Sem uso de controller.
+			CadastrarUsuarioDAO dao = new CadastrarUsuarioDAO();
+			try {
+				dao.insertNewCadastrarUsuario(usuario);
+			} catch (CadastrarUsuarioExeption e) {
+				e.printStackTrace();
+			} //Enviando to para o banco de dados.
+			
+			JOptionPane.showMessageDialog(this, "Cadastro salvo com sucesso!");
+		}else{
+			JOptionPane.showMessageDialog(this, "Senha inválida.");
+		}
+	}
+	
+	//Valida se senhas estão certas.
+	private boolean senhaCorreta(){
+		String senha1 = new String(textSenha.getPassword()).trim();
+		String senha2 = new String(textSenhaConfirma.getPassword()).trim();
+		
+		if(senha1.equals(senha2)){
+			return true;
+		}
+		return false;
 	}
 	
 	public static void main(String[] args){

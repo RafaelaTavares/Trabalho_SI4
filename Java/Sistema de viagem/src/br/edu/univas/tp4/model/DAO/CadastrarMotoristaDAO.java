@@ -24,12 +24,10 @@ public class CadastrarMotoristaDAO {
 			
 			prepStat.setInt(1, to.getCodMotorista());
 			prepStat.setString(2, to.getNome());
-			prepStat.setInt(3, to.getCpf());
-			prepStat.setInt(4, to.getRg());
-			prepStat.setInt(5, to.getCnh());
-		//	prepStat.setCharacterStream(6, to.getSexo());  VER O QUE EH
-		//	prepStat.setDate(7, to.getDataNascimento());
-			prepStat.setInt(6, to.getTelefone());
+			prepStat.setString(3, to.getCpf());
+			prepStat.setString(4, to.getRg());
+			prepStat.setString(5, to.getCnh());
+			prepStat.setString(6, to.getTelefone());
 			prepStat.setString(7, to.getEndereco());
 			
 			prepStat.execute();
@@ -71,12 +69,10 @@ public class CadastrarMotoristaDAO {
 			PreparedStatement prepStat = conn.prepareStatement(sentenca);
 			
 			prepStat.setString(1, to.getNome());
-			prepStat.setInt(2, to.getCpf());
-			prepStat.setInt(3, to.getRg());
-			prepStat.setInt(4, to.getCnh());
-		//	prepStat.setCharacterStream(5, to.getSexo());  VER O QUE EH
-		//	prepStat.setDate(6, to.getDataNascimento());
-			prepStat.setInt(7, to.getTelefone());
+			prepStat.setString(2, to.getCpf());
+			prepStat.setString(3, to.getRg());
+			prepStat.setString(4, to.getCnh());
+			prepStat.setString(7, to.getTelefone());
 			prepStat.setString(8, to.getEndereco());
 			
 			prepStat.execute();

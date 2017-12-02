@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.ParseException;
 
 import javax.swing.ButtonGroup;
@@ -11,21 +13,41 @@ import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 
+import br.edu.univas.tp4.model.DAO.CadastrarMotoristaDAO;
+import br.edu.univas.tp4.model.DAO.CadastrarUsuarioDAO;
+import br.edu.univas.tp4.model.Exception.CadastrarMotoristaException;
+import br.edu.univas.tp4.model.Exception.CadastrarUsuarioExeption;
+import br.edu.univas.tp4.model.TO.CadastrarMotoristaTO;
+import br.edu.univas.tp4.model.TO.CadastrarUsuarioTO;
 import br.edu.univas.tp4.view.Util.Frame;
 
 public class CadastrarMotorista extends JFrame {
 
 	private static final long serialVersionUID = 6310151249155187434L;
 
-	private JFormattedTextField JFormatTextFieldCpf = null;
-	
 	private JPanel contentPane = null;
+	//Declarações no corpo da classe
+		JTextField textCod = new JTextField();
+		JTextField textNome = new JTextField();
+		JTextField textRG = new JTextField();
+		JTextField textCNH = new JTextField();
+		JTextField textTelefone = new JTextField();		
+		JTextField textEndereco = new JTextField();
+		JFormattedTextField JFormatTextFieldCpf =  new JFormattedTextField();		
+		JFormattedTextField JFormatTextFieldTelefone = new JFormattedTextField();
+		JRadioButton catARadioButton = new JRadioButton();
+	    JRadioButton catBRadioButton = new JRadioButton();
+	    JRadioButton catCRadioButton = new JRadioButton();
+	    JRadioButton catDRadioButton = new JRadioButton();
+	    JRadioButton catERadioButton = new JRadioButton();
+	//Fim declarações
 	
 	public CadastrarMotorista(){
 		
@@ -52,7 +74,6 @@ public class CadastrarMotorista extends JFrame {
 		codVeiculo.setText("Codigo:");
 		centerPanel.add(codVeiculo);
 				
-		JTextField textCod = new JTextField();
 		textCod.setColumns(4);
 		centerPanel.add(textCod);
 		
@@ -61,12 +82,14 @@ public class CadastrarMotorista extends JFrame {
 		f2.setPreferredSize(new Dimension(26, 20));
 		centerPanel.add(f2);
 		
-
+		JLabel vazio = new JLabel();
+		vazio.setText("                                                                         ");
+		centerPanel.add(vazio);
 
 		
 		JLabel nomeMotorista = new JLabel();
 		nomeMotorista.setBorder(new EmptyBorder(10, 0, 0, 0));
-		nomeMotorista.setText("                            Nome:");
+		nomeMotorista.setText("                        Nome:");
 		centerPanel.add(nomeMotorista);
 		
 		JLabel cpfMotorista = new JLabel();
@@ -74,15 +97,13 @@ public class CadastrarMotorista extends JFrame {
 		cpfMotorista.setText("                                                CPF:");
 		centerPanel.add(cpfMotorista);
 		
-		JTextField textNome = new JTextField();
 		textNome.setColumns(24);
 		centerPanel.add(textNome);
 		
-		JFormatTextFieldCpf =  new JFormattedTextField();
 		JFormatTextFieldCpf.setColumns(8);
 		try {
 			MaskFormatter mascaraCpf = new MaskFormatter("###.###.###-##");
-			mascaraCpf.setValidCharacters("1234567890");
+			mascaraCpf.setPlaceholderCharacter('_');
 			mascaraCpf.install(JFormatTextFieldCpf);
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -91,31 +112,20 @@ public class CadastrarMotorista extends JFrame {
 		
 		JLabel rgMotorista = new JLabel();
 		rgMotorista.setBorder(new EmptyBorder(10, 0, 0, 0));
-		rgMotorista.setText("                RG:");
+		rgMotorista.setText("          RG:");
 		centerPanel.add(rgMotorista);
 		
 		JLabel cnhMotorista = new JLabel();
 		cnhMotorista.setBorder(new EmptyBorder(10, 0, 0, 0));
-		cnhMotorista.setText("                               CNH:");
+		cnhMotorista.setText("                                               Nº CNH:");
 		centerPanel.add(cnhMotorista);
-		
-		JLabel nascMotorista = new JLabel();
-		nascMotorista.setBorder(new EmptyBorder(10, 0, 0, 0));
-		nascMotorista.setText("                Data Nascimento:");
-		centerPanel.add(nascMotorista);
-		
-		JTextField textRG = new JTextField();
-		textRG.setColumns(11);
+				
+		textRG.setColumns(16);
 		centerPanel.add(textRG);
 		
-		JTextField textCNH = new JTextField();
-		textCNH.setColumns(10);
+		textCNH.setColumns(16);
 		centerPanel.add(textCNH);
-		
-		JTextField textNascMotorista = new JTextField();
-		textNascMotorista.setColumns(10);
-		centerPanel.add(textNascMotorista);
-		
+			
 		JLabel telefoneMotorista = new JLabel();
 		telefoneMotorista.setBorder(new EmptyBorder(10, 0, 0, 0));
 		telefoneMotorista.setText("    Telefone:");
@@ -127,11 +137,19 @@ public class CadastrarMotorista extends JFrame {
 				+ "                                    ");
 		centerPanel.add(enderecoMotorista);
 		
-		JTextField textTelefone = new JTextField();
-		textTelefone.setColumns(9);
-		centerPanel.add(textTelefone);
-				
-		JTextField textEndereco = new JTextField();
+		JFormatTextFieldTelefone.setColumns(9);
+		try {
+			MaskFormatter mascaraCpf = new MaskFormatter("(##) # ####-####");
+			mascaraCpf.setPlaceholderCharacter('_');
+			mascaraCpf.install(JFormatTextFieldTelefone);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		centerPanel.add(JFormatTextFieldTelefone);
+		
+//		textTelefone.setColumns(9);
+//		centerPanel.add(textTelefone);
+		
 		textEndereco.setColumns(23);
 		centerPanel.add(textEndereco);
 		
@@ -142,20 +160,20 @@ public class CadastrarMotorista extends JFrame {
 		tipoCnhMotorista.setFont(new Font("Dialog", Font.CENTER_BASELINE, 14));
 		centerPanel.add(tipoCnhMotorista);
 		
-		JRadioButton catARadioButton = new JRadioButton("A");
+		catARadioButton.setText("A");
 		catARadioButton.setBackground(Color.lightGray);
 		catARadioButton.setSelected(false);
-	    
-	    JRadioButton catBRadioButton = new JRadioButton("B");
+		
+		catBRadioButton.setText("B");
 	    catBRadioButton.setBackground(Color.lightGray);
-	    
-	    JRadioButton catCRadioButton = new JRadioButton("C");
+	   
+	    catCRadioButton.setText("C");
 	    catCRadioButton.setBackground(Color.lightGray);
 	    
-	    JRadioButton catDRadioButton = new JRadioButton("D");
+	    catDRadioButton.setText("D");
 	    catDRadioButton.setBackground(Color.lightGray);
 	    
-	    JRadioButton catERadioButton = new JRadioButton("E");
+	    catERadioButton.setText("E");
 	    catERadioButton.setBackground(Color.lightGray);
 
 	    ButtonGroup group = new ButtonGroup();
@@ -195,6 +213,37 @@ public class CadastrarMotorista extends JFrame {
 		JButton gravar = new JButton();
 		gravar.setText("Gravar");
 		gravar.setPreferredSize(new Dimension(70, 25));
+		gravar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				gravarMotorista();				
+			}
+
+			private void gravarMotorista() {
+				//Extraindo informações dos campos
+				int codMotorista = Integer.valueOf(textCod.getText()); //Transformando String em Int
+				String nome = textNome.getText();
+				String cpf = JFormatTextFieldCpf.getText().replaceAll("\\D","");
+				String rg = textRG.getText();
+				String cnh = textCNH.getText();
+				String telefone = textTelefone.getText();
+				String endereco = textEndereco.getText();
+								
+				//Montando TO
+				CadastrarMotoristaTO motorista = new CadastrarMotoristaTO(codMotorista, nome, cpf, rg, cnh, telefone, endereco);
+				
+				//Inserindo usuario no banco de dados - Sem uso de controller.
+				CadastrarMotoristaDAO dao = new CadastrarMotoristaDAO();
+				try {
+					dao.insertNewCadastrarMotorista(motorista);
+				} catch (CadastrarMotoristaException e) {
+					e.printStackTrace();
+				} //Enviando to para o banco de dados.
+				
+				JOptionPane.showMessageDialog(this, "Cadastro salvo com sucesso!");		
+			}
+		});
 		westPanel.add(gravar);
 		
 		JButton cancelar = new JButton();

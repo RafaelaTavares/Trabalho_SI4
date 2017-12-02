@@ -29,10 +29,10 @@ public class CadastrarMotoristaConsulta {
 			
 			int codMotorista = rs.getInt(1);
 			String nome = rs.getString(2);
-			int cpf = rs.getInt(3);
-			int rg = rs.getInt(4);
-			int cnh = rs.getInt(5);
-			int telefone = rs.getInt(6);
+			String cpf = rs.getString(3);
+			String rg = rs.getString(4);
+			String cnh = rs.getString(5);
+			String telefone = rs.getString(6);
 			String endereco = rs.getString(7);
 						
 			CadastrarMotoristaTO to = new CadastrarMotoristaTO(codMotorista, nome, cpf, rg, cnh, telefone, endereco);

@@ -29,7 +29,7 @@ public class CadastrarUsuarioConsulta {
 				
 				int codUsuario = rs.getInt(1);
 				String nome = rs.getString(2);
-				int cpf = rs.getInt(3);
+				String cpf = rs.getString(3);
 				String senha = rs.getString(4);
 				
 				CadastrarUsuarioTO to = new CadastrarUsuarioTO(codUsuario, nome, cpf, senha);

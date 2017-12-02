@@ -23,7 +23,7 @@ public void insertNewCadastrarUsuario(CadastrarUsuarioTO to) throws CadastrarUsu
 						
 			prepStat.setInt(1, to.getCodUsuario());
 			prepStat.setString(2, to.getNome());
-			prepStat.setInt(3, to.getCpf());
+			prepStat.setString(3, to.getCpf());
 			prepStat.setString(4, to.getSenha());
 					
 			prepStat.execute();
@@ -65,7 +65,7 @@ public void insertNewCadastrarUsuario(CadastrarUsuarioTO to) throws CadastrarUsu
 			PreparedStatement prepStat = conn.prepareStatement(sentenca);
 			
 			prepStat.setString(1, to.getNome());
-			prepStat.setInt(2, to.getCpf());
+			prepStat.setString(2, to.getCpf());
 			prepStat.setString(3, to.getSenha());
 			prepStat.setInt(4, to.getCodUsuario());
 			

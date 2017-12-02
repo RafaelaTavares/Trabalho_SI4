@@ -4,25 +4,21 @@ public class CadastrarMotoristaTO {
 
 	int codMotorista;
 	String nome;
-	int cpf;
-	int rg;
-	int cnh;
-//	char sexo;
-//	Date dataNascimento;
-	int telefone;
+	String cpf;
+	String rg;
+	String cnh;
+	String telefone;
 	String endereco;
 	
 	public CadastrarMotoristaTO(){
 		
 	}
 	
-	public CadastrarMotoristaTO(int codMotorista, String nome, int cpf, int rg, int cnh, int telefone, String endereco){
+	public CadastrarMotoristaTO(int codMotorista, String nome, String cpf, String rg, String cnh, String telefone, String endereco){
 		this.codMotorista = codMotorista;
 		this.nome = nome;
 		this.cpf = cpf;
 		this.rg = rg;
-//		this.sexo = sexo;
-//		this.dataNascimento = dataNascimento;
 		this.telefone = telefone;
 		this.endereco = endereco;
 	}
@@ -35,27 +31,19 @@ public class CadastrarMotoristaTO {
 		return nome;
 	}
 
-	public int getCpf() {
+	public String getCpf() {
 		return cpf;
 	}
 
-	public int getRg() {
+	public String getRg() {
 		return rg;
 	}
 
-	public int getCnh() {
+	public String getCnh() {
 		return cnh;
 	}
 
-//	public char getSexo() {
-//		return sexo;
-//	}
-//
-//	public Date getDataNascimento() {
-//		return dataNascimento;
-//	}
-
-	public int getTelefone() {
+	public String getTelefone() {
 		return telefone;
 	}
 
@@ -67,27 +55,19 @@ public class CadastrarMotoristaTO {
 		this.nome = nome;
 	}
 
-	public void setCpf(int cpf) {
+	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
 
-	public void setRg(int rg) {
+	public void setRg(String rg) {
 		this.rg = rg;
 	}
 
-	public void setCnh(int cnh) {
+	public void setCnh(String cnh) {
 		this.cnh = cnh;
 	}
 
-//	public void setSexo(char sexo) {
-//		this.sexo = sexo;
-//	}
-//
-//	public void setDataNascimento(Date dataNascimento) {
-//		this.dataNascimento = dataNascimento;
-//	}
-
-	public void setTelefone(int telefone) {
+	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
 

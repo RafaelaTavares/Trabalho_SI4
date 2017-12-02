@@ -4,7 +4,7 @@ public class CadastrarUsuarioTO {
 
 	private int codUsuario;
 	private String nome;
-	private int cpf;
+	private String cpf;
 	private String senha;
 	
 	
@@ -12,7 +12,7 @@ public class CadastrarUsuarioTO {
 		
 	}
 	
-	public CadastrarUsuarioTO(int codUsuario, String nome, int cpf, String senha){
+	public CadastrarUsuarioTO(int codUsuario, String nome, String cpf, String senha){
 		this.codUsuario = codUsuario;
 		this.nome = nome;
 		this.cpf = cpf;
@@ -35,11 +35,11 @@ public class CadastrarUsuarioTO {
 		this.nome = nome;
 	}
 
-	public int getCpf() {
+	public String getCpf() {
 		return cpf;
 	}
 
-	public void setCpf(int cpf) {
+	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
 
