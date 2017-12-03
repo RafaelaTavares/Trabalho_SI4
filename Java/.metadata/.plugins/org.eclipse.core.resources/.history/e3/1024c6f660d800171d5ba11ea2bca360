@@ -1,0 +1,340 @@
+package br.edu.univas.tp4.view.Frame;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+import javax.swing.text.MaskFormatter;
+
+import br.edu.univas.tp4.model.DAO.AgendarViagemDAO;
+import br.edu.univas.tp4.model.Exception.AgendarViagemException;
+import br.edu.univas.tp4.model.TO.AgendarViagemTO;
+import br.edu.univas.tp4.view.Util.Frame;
+
+public class AgendarViagem extends JFrame{
+
+	private static final long serialVersionUID = 5989131292707356488L;
+	
+	private JPanel contentPane = null;
+	//Declarações no corpo da classe
+		JLabel status = new JLabel();
+		JTextField textCod = new JTextField();			
+		JTextField textEndereco = new JTextField();
+		JTextField textValorViagem = new JTextField();
+		JTextField textQuantPass = new JTextField();
+		JTextField textValorPass = new JTextField();
+		JRadioButton agendadaRadioButton = new JRadioButton();
+	    JRadioButton canceladaRadioButton = new JRadioButton();
+	    JRadioButton realizadaRadioButton = new JRadioButton();
+	    JFormattedTextField dateSaidaTextField = new JFormattedTextField();
+		JFormattedTextField dateRetornoTextField = new JFormattedTextField();
+		JFormattedTextField horaSaidaTextField = new JFormattedTextField();
+		JFormattedTextField horaRetornoTextField = new JFormattedTextField();
+	//Fim declarações	
+	
+	public AgendarViagem(){
+		this.setSize(470, 305);
+		this.setTitle("Agendar Viagem");
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setLocationRelativeTo(null);
+		setResizable(false);
+		addComponents();
+	}
+	
+	public void addComponents(){
+		contentPane = new JPanel();
+		contentPane.setLayout(new BorderLayout());
+		this.setContentPane(contentPane);
+		
+		JPanel centerPanel = new JPanel();
+		centerPanel.setBackground(Color.LIGHT_GRAY);
+		centerPanel.setPreferredSize(new Dimension(25, 0));
+		contentPane.add(centerPanel, BorderLayout.CENTER);
+		
+		JLabel codVeiculo = new JLabel();
+		codVeiculo.setText("Codigo:");
+		centerPanel.add(codVeiculo);
+				
+		textCod.setColumns(4);
+		centerPanel.add(textCod);
+		
+		JButton f2 = new JButton();
+		f2.setText("F2");
+		f2.setPreferredSize(new Dimension(26, 20));
+		centerPanel.add(f2);
+		
+		JLabel vazio = new JLabel();
+		vazio.setText("                                                                         ");
+		centerPanel.add(vazio);
+		
+		JLabel dataSaida = new JLabel();
+		dataSaida.setText("Data Saída:");
+		dataSaida.setBorder(new EmptyBorder(10, 12, 0, 0));
+		centerPanel.add(dataSaida);
+		
+		JLabel dataRetorno = new JLabel();
+		dataRetorno.setBorder(new EmptyBorder(10, 12, 0, 0));
+		dataRetorno.setText("Data Retorno:");
+		centerPanel.add(dataRetorno);
+		
+		
+		JLabel hrSaida = new JLabel();
+		hrSaida.setText("Hora Saída:");
+		hrSaida.setBorder(new EmptyBorder(10, 12, 0, 0));
+		centerPanel.add(hrSaida);
+		
+		JLabel hrRetorno = new JLabel();
+		hrRetorno.setText("Hora Retorno:");
+		hrRetorno.setBorder(new EmptyBorder(10, 12, 0, 0));
+		centerPanel.add(hrRetorno);
+		
+		DateFormat formatDateSaida = new SimpleDateFormat("yyyy--MMMM--dd");
+	    dateSaidaTextField.setColumns(7);
+	    try {
+			MaskFormatter mascaraData = new MaskFormatter("## / ## / ####");
+			mascaraData.setPlaceholderCharacter('_');
+			mascaraData.install(dateSaidaTextField);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	    centerPanel.add(dateSaidaTextField);
+	    
+	    DateFormat formatDateRetorno = new SimpleDateFormat("yyyy--MMMM--dd");
+	    dateRetornoTextField.setColumns(7);
+	    try {
+			MaskFormatter mascaraData = new MaskFormatter("## / ## / ####");
+			mascaraData.setPlaceholderCharacter('_');
+			mascaraData.install(dateRetornoTextField);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	    centerPanel.add(dateRetornoTextField);
+			    
+	    DateFormat formatHoraSaida = new SimpleDateFormat("HH:mm:ss");
+	    horaSaidaTextField.setColumns(6);
+	    try {
+			MaskFormatter mascaraHora = new MaskFormatter("## : ## : ## ");
+			mascaraHora.setPlaceholderCharacter('_');
+			mascaraHora.install(horaSaidaTextField);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	    centerPanel.add(horaSaidaTextField);
+	    
+	    DateFormat formatHoraRetorno = new SimpleDateFormat("HH:mm:ss");
+	    horaRetornoTextField.setColumns(6);
+	    try {
+			MaskFormatter mascaraHora = new MaskFormatter("## : ## : ## ");
+			mascaraHora.setPlaceholderCharacter('_');
+			mascaraHora.install(horaRetornoTextField);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	    centerPanel.add(horaRetornoTextField);
+		
+		JLabel enderecoViagem = new JLabel();
+		enderecoViagem.setText("                       Endereço:");
+		enderecoViagem.setBorder(new EmptyBorder(10, 12, 0, 0));
+		centerPanel.add(enderecoViagem);
+		
+		JLabel valorViagem = new JLabel();
+		valorViagem.setText("                                     Valor Total:");
+		valorViagem.setBorder(new EmptyBorder(10, 12, 0, 0));
+		centerPanel.add(valorViagem);
+		
+		textEndereco.setColumns(23);
+		centerPanel.add(textEndereco);
+		
+		textValorViagem.setColumns(8);
+		centerPanel.add(textValorViagem);
+		
+		JLabel quantPassViagem = new JLabel();
+		quantPassViagem.setText("Quantidade Passageiro:");
+		quantPassViagem.setBorder(new EmptyBorder(10, 0, 0, 20));
+		centerPanel.add(quantPassViagem);				
+			
+		JLabel valorPassagem = new JLabel();
+		valorPassagem.setText("          Valor Passagem: ");
+		valorPassagem.setBorder(new EmptyBorder(10, 0, 0, 10));
+		centerPanel.add(valorPassagem);
+		
+		textQuantPass.setColumns(15);
+		centerPanel.add(textQuantPass);
+		
+		textValorPass.setColumns(15);
+		centerPanel.add(textValorPass);
+		
+		status.setText("                     Selecione o status da viagem:"
+				+ "                      ");
+		status.setBorder(new EmptyBorder(10, 0, 0, 0));
+		status.setFont(new Font("Dialog", Font.CENTER_BASELINE, 14));
+		centerPanel.add(status);
+	
+		
+//		JComboBox<String> StatusComboBox = new JComboBox<>();
+//		StatusComboBox.addItem("1 - Agendada");
+//		StatusComboBox.addItem("2 - Realizada");
+//		StatusComboBox.addItem("3 - Cancelada");
+//		
+//		StatusComboBox.setPreferredSize(new Dimension(115, 20));		
+//		centerPanel.add(StatusComboBox);
+		
+		agendadaRadioButton.setText("Agendada");
+		agendadaRadioButton.setBackground(Color.lightGray);
+		
+		canceladaRadioButton.setText("Cancelada");
+	    canceladaRadioButton.setBackground(Color.lightGray);
+	    
+	    realizadaRadioButton.setText("Realizada");
+	    realizadaRadioButton.setBackground(Color.lightGray);
+	    
+	    ButtonGroup group = new ButtonGroup();
+	    group.add(agendadaRadioButton);
+	    group.add(canceladaRadioButton);
+	    group.add(realizadaRadioButton);
+	    
+	    centerPanel.add(agendadaRadioButton);
+	    centerPanel.add(canceladaRadioButton);
+	    centerPanel.add(realizadaRadioButton);
+		
+		JPanel westPanel = new JPanel();
+		westPanel.setBackground(Color.DARK_GRAY);
+		westPanel.setPreferredSize(new Dimension(80,0));
+		westPanel.setBorder(new EmptyBorder(50, 0, 0, 0));
+		contentPane.add(westPanel, BorderLayout.WEST);
+		
+		JButton incluir = new JButton();
+		incluir.setText("Incluir");
+		incluir.setPreferredSize(new Dimension(70, 25));
+		westPanel.add(incluir);
+		
+		JButton alterar = new JButton();
+		alterar.setText("Alterar");
+		alterar.setPreferredSize(new Dimension(70, 25));
+		westPanel.add(alterar);
+		
+		JButton excluir = new JButton();
+		excluir.setText("Excluir");
+		excluir.setPreferredSize(new Dimension(70, 25));
+		westPanel.add(excluir);
+		
+		JButton gravar = new JButton();
+		gravar.setText("Gravar");
+		gravar.setPreferredSize(new Dimension(70, 25));
+		gravar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				gravargendarViagem();
+				
+			}
+
+			private void gravargendarViagem() {
+				//Extraindo informações dos campos
+				int codViagem = Integer.valueOf(textCod.getText()); //Transformando String em Int
+				String endereco = textEndereco.getText();
+				int quantPassageiro = Integer.valueOf(textQuantPass.getText()); //Transformando String em Int
+				Date dataSaida  = Date.valueOf(dateSaidaTextField.getText());
+				Date dataRetorno  = Date.valueOf(dateRetornoTextField.getText());
+				Date horaSaida = Date.valueOf(horaSaidaTextField.getText());
+				Date horaRetorno  = Date.valueOf(horaRetornoTextField.getText());
+				float valorViagem = Float.valueOf(textValorViagem.getText()); //Transformando String em Float
+				int statusViagem = 0;
+				if (agendadaRadioButton.isSelected()){
+					statusViagem = 1;
+				}
+				
+				if(canceladaRadioButton.isSelected()){
+					statusViagem = 2;
+				}
+				
+				if(realizadaRadioButton.isSelected()){
+					statusViagem = 3;
+				}
+				
+				//Montando TO
+				AgendarViagemTO viagem = new AgendarViagemTO(codViagem, endereco, quantPassageiro, dataSaida, dataRetorno, horaSaida, horaRetorno, statusViagem, valorViagem);
+				
+				//Inserindo usuario no banco de dados - Sem uso de controller.
+				AgendarViagemDAO dao = new AgendarViagemDAO();				
+					try {
+						dao.insertNewAgendarViagem(viagem);
+					} catch (AgendarViagemException e) {
+						e.printStackTrace();
+					}//Enviando to para o banco de dados.
+				
+				JOptionPane.showMessageDialog(null, "Cadastro salvo com sucesso!");
+				
+			}
+		});
+		westPanel.add(gravar);
+		
+		JButton cancelar = new JButton();
+		cancelar.setText("Cancelar");
+		cancelar.setPreferredSize(new Dimension(70, 25));
+		westPanel.add(cancelar);
+	}
+		
+	public static void main(String[] args){
+		Frame.setlookAndFeel(Frame.ACRYL);
+		AgendarViagem tela = new AgendarViagem();
+		tela.setVisible(true);
+	}
+	
+//	JFormattedTextFieldDataSaida.setColumns(8);
+//	try {
+//		MaskFormatter mascaraData = new MaskFormatter("##/##/####");
+//		mascaraData.setValidCharacters("1234567890");
+//		mascaraData.install(JFormattedTextFieldDataSaida);
+//	} catch (ParseException e) {
+//		e.printStackTrace();
+//	}
+////	JFormattedTextFieldData.setBorder(new EmptyBorder(0,0 , 0, 100));
+//	centerPanel.add(JFormattedTextFieldDataSaida);
+//	JFormattedTextFieldDataRetorno.setColumns(8);
+//	try {
+//		MaskFormatter mascaraCpf = new MaskFormatter("##/##/####");
+//		mascaraCpf.setValidCharacters("1234567890");
+//		mascaraCpf.install(JFormattedTextFieldDataRetorno);
+//	} catch (ParseException e) {
+//		e.printStackTrace();
+//	}
+//	centerPanel.add(JFormattedTextFieldDataRetorno);
+//	JFormattedTextFieldHoraSaida.setColumns(7);
+//	try {
+//		MaskFormatter mascaraCpf = new MaskFormatter(" ## : ## ");
+//		mascaraCpf.setValidCharacters("1234567890");
+//		mascaraCpf.install(JFormattedTextFieldHoraSaida);
+//	} catch (ParseException e) {
+//		e.printStackTrace();
+//	}
+//	centerPanel.add(JFormattedTextFieldHoraSaida);
+
+//	JFormattedTextFieldHoraRetorno.setColumns(7);
+//	try {
+//		MaskFormatter mascaraCpf = new MaskFormatter(" ## : ## ");
+//		mascaraCpf.setValidCharacters("1234567890");
+//		mascaraCpf.install(JFormattedTextFieldHoraRetorno);
+//	} catch (ParseException e) {
+//		e.printStackTrace();
+//	}
+//	centerPanel.add(JFormattedTextFieldHoraRetorno);
+
+}
